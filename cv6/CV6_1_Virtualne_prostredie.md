@@ -14,6 +14,9 @@ Virtuálne prostredie je uzavretý priestor, kde môžete inštalovať balíčky
 
 ## Vytvorenie virtuálneho prostredia
 
+
+
+
 ### 1. Použitie príkazového riadku (príkaz `venv`)
 
 1. **Vytvorenie virtuálneho prostredia**:
