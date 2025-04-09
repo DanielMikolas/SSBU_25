@@ -2,11 +2,14 @@ import seaborn as sns
 import pandas as pd
 from matplotlib import pyplot as plt
 
+from data.data_handling_refactored import DatasetRefactored
 from plotting.base_plotter import BasePlotter
 
 
 class DatasetPlotter(BasePlotter):
     """A class for visualizing dataset features."""
+    def __init__(self, n_replications:int = 10):
+        BasePlotter.__init__(self, replications=n_replications)
 
     def plot_class_distribution(self, df: pd.DataFrame):
         """

@@ -5,8 +5,11 @@ from plotting.base_plotter import BasePlotter
 
 class ExperimentPlotter(BasePlotter):
     """A class for plotting the results of machine learning experiments."""
+    def __init__(self, n_replications:int = 10):
+        BasePlotter.__init__(self, replications=n_replications)
 
-    def plot_metric_density(self, results, metrics=('accuracy', 'f1_score', 'roc_auc')):
+
+    def plot_metric_density(self, results, metrics=('accuracy', 'f1_score', 'roc_auc', 'precision')):
         """
         Plot density plots for specified metrics.
 
@@ -34,17 +37,18 @@ class ExperimentPlotter(BasePlotter):
         Plot accuracies for each model over all replications and display the average accuracy.
 
         Parameters:
-        - all_metric_results: Dict containing accuracies for each model.
+        - all_metric_results: Dict containing metrics for each model.
         - title: str, title of the plot.
         - metric_name: str, name of the metric to display on the y-axis.
         """
+
         def plot_func():
             colors = ['green', 'orange', 'blue']
             for i, (model_name, values) in enumerate(all_metric_results.items()):
                 plt.plot(values, label=f"{model_name} per replication", alpha=0.5, color=colors[i % len(colors)])
-                avg_accuracy = sum(values) / len(values)
-                plt.axhline(y=avg_accuracy, linestyle='--', color=colors[i % len(colors)], 
-                            label=f"{model_name} average accuracy: {avg_accuracy:.2f}")
+                avg_metric = sum(values) / len(values)
+                plt.axhline(y=avg_metric, linestyle='--', color=colors[i % len(colors)],
+                            label=f"{model_name} average {metric_name}: {avg_metric:.2f}")
             plt.legend()
 
         self._BasePlotter__generic_plot(
@@ -87,3 +91,4 @@ class ExperimentPlotter(BasePlotter):
             model_results = results[results['model'] == model_name]
             best_params_list = model_results['best_params'].value_counts().index[0]
             print(f"Most frequently chosen best parameters for {model_name}: {best_params_list}")
+
